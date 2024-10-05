@@ -40,7 +40,7 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            PlayerRenderer.transform.rotation = Quaternion.Euler(0, 0, 0);
+            PlayerTransform.rotation = Quaternion.Euler(0, 0, 0);
         }
     }
 }

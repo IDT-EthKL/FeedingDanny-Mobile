@@ -14,10 +14,12 @@ public class EnemyAgent : MonoBehaviour
     public Sprite idle;
 
     private PreySpawner preySpawner;
+    public GameState gameState;
 
     private void Awake()
     {
         preySpawner = FindFirstObjectByType<PreySpawner>();
+        gameState = FindFirstObjectByType<GameState>();
     }
 
     void FixedUpdate()
@@ -49,6 +51,11 @@ public class EnemyAgent : MonoBehaviour
             Enemy.sprite = eat;
 
             StartCoroutine(resetAnimation());
+
+            Time.timeScale = 0;
+
+            collision.gameObject.SetActive(false);
+            gameState.GameOver();
         }
 
         //Check for a match with the specific tag on any GameObject that collides with your GameObject
@@ -68,7 +75,5 @@ public class EnemyAgent : MonoBehaviour
         yield return new WaitForSeconds(.5f);
 
         Enemy.sprite = idle;
-
-        Debug.Log("Reset");
     }
 }
