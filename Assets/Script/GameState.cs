@@ -7,12 +7,13 @@ using System.Diagnostics.Contracts;
 
 public class GameState : MonoBehaviour
 {
+    public GameObject player;
 
     public GameObject gameOverPanel;
     public TextMeshProUGUI scoreText;
     public TextMeshProUGUI timeText;
 
-    int time;
+    private int time;
     public int score;
 
     private void Start()

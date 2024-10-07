@@ -10,16 +10,16 @@ public class EnemyAgent : MonoBehaviour
     public Transform target;
 
     public SpriteRenderer Enemy;
-    public Sprite eat;
-    public Sprite idle;
+    //public Sprite eat;
+    //public Sprite idle;
 
-    private PreySpawner preySpawner;
-    public GameState gameState;
+    //private PreySpawner preySpawner;
+    //public GameState gameState;
 
     private void Awake()
     {
-        preySpawner = FindFirstObjectByType<PreySpawner>();
-        gameState = FindFirstObjectByType<GameState>();
+        //preySpawner = FindFirstObjectByType<PreySpawner>();
+        //gameState = FindFirstObjectByType<GameState>();
     }
 
     void FixedUpdate()
@@ -42,38 +42,38 @@ public class EnemyAgent : MonoBehaviour
         }
     }
 
-    void OnCollisionEnter2D(Collision2D collision)
-    {
-        //Check for a match with the specified name on any GameObject that collides with your GameObject
-        if (collision.gameObject.tag == "Player")
-        {
-            //If the GameObject's name matches the one you suggest, output this message in the console
-            Enemy.sprite = eat;
+    //void OnCollisionEnter2D(Collision2D collision)
+    //{
+    //    //Check for a match with the specified name on any GameObject that collides with your GameObject
+    //    if (collision.gameObject.tag == "Player")
+    //    {
+    //        //If the GameObject's name matches the one you suggest, output this message in the console
+    //        Enemy.sprite = eat;
 
-            StartCoroutine(resetAnimation());
+    //        StartCoroutine(resetAnimation());
 
-            Time.timeScale = 0;
+    //        Time.timeScale = 0;
 
-            collision.gameObject.SetActive(false);
-            gameState.GameOver();
-        }
+    //        collision.gameObject.SetActive(false);
+    //        gameState.GameOver();
+    //    }
 
-        //Check for a match with the specific tag on any GameObject that collides with your GameObject
-        if (collision.gameObject.tag == "Prey")
-        {
-            Destroy(collision.gameObject);
-            Enemy.sprite = eat;
+    //    //Check for a match with the specific tag on any GameObject that collides with your GameObject
+    //    if (collision.gameObject.tag == "Prey")
+    //    {
+    //        Destroy(collision.gameObject);
+    //        Enemy.sprite = eat;
 
-            preySpawner.count--;
+    //        preySpawner.count--;
 
-            StartCoroutine(resetAnimation());
-        }
-    }
+    //        StartCoroutine(resetAnimation());
+    //    }
+    //}
 
-    IEnumerator resetAnimation()
-    {
-        yield return new WaitForSeconds(.5f);
+    //IEnumerator resetAnimation()
+    //{
+    //    yield return new WaitForSeconds(.5f);
 
-        Enemy.sprite = idle;
-    }
+    //    Enemy.sprite = idle;
+    //}
 }

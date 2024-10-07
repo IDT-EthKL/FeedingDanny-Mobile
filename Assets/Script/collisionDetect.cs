@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Numerics;
 using Newtonsoft.Json;
 using Thirdweb;
@@ -10,52 +11,67 @@ using UnityEngine.UI;
 
 public class collisionDetect : MonoBehaviour
 {
-    public SpriteRenderer PlayerRenderer;
+    private SpriteRenderer objectRenderer;
     public Sprite eat;
     public Sprite idle;
 
-    public PreySpawner preySpawner;
+    public string[] EdiblePreyTag;
+
+    //public PreySpawner preySpawner;
     public GameState gameState;
 
     public int score;
     public TextMeshProUGUI scoreText;
 
 
-    private ThirdwebChainData _chainDetails;
-    public BigInteger ActiveChainId; //Manta
-    public string mantaContractAddress = "0x2B47266fBBcC6BeA15C307DFcd5b2233e4275A18";
-    public string scrollContractAddress = "0x6696283e07ce0619f6d88626a77a41978517dd1f";
+    //private ThirdwebChainData _chainDetails;
+    private BigInteger ActiveChainId; //Manta
+    private string mantaContractAddress = "0x2B47266fBBcC6BeA15C307DFcd5b2233e4275A18";
+    private string scrollContractAddress = "0x6696283e07ce0619f6d88626a77a41978517dd1f";
 
 
 
-    private async void Start()
+    private void Start()
     {
-        try
-        {
-            _chainDetails = await Utils.GetChainMetadata(client: ThirdwebManager.Instance.Client, chainId: ActiveChainId);
-        }
-        catch
-        {
-            _chainDetails = new ThirdwebChainData()
-            {
-                NativeCurrency = new ThirdwebChainNativeCurrency()
-                {
-                    Decimals = 18,
-                    Name = "ETH",
-                    Symbol = "ETH"
-                }
-            };
-        }
+        objectRenderer = GetComponent<SpriteRenderer>();
+
+        //try
+        //{
+        //    _chainDetails = await Utils.GetChainMetadata(client: ThirdwebManager.Instance.Client, chainId: ActiveChainId);
+        //}
+        //catch
+        //{
+        //    _chainDetails = new ThirdwebChainData()
+        //    {
+        //        NativeCurrency = new ThirdwebChainNativeCurrency()
+        //        {
+        //            Decimals = 18,
+        //            Name = "ETH",
+        //            Symbol = "ETH"
+        //        }
+        //    };
+        //}
     }
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.tag == "Prey")
+        if (collision.gameObject == gameState.player)
+        {
+            objectRenderer.sprite = eat;
+
+            StartCoroutine(resetAnimation());
+
+            Time.timeScale = 0;
+
+            collision.gameObject.SetActive(false);
+            gameState.GameOver();
+        }
+        else if (EdiblePreyTag.Contains(collision.gameObject.tag) && this.gameObject.tag == "Player")
         {
             Destroy(collision.gameObject);
-            PlayerRenderer.sprite = eat;
+            objectRenderer.sprite = eat;
 
-            preySpawner.count--;
+            //preySpawner.count--;
             score++;
 
             gameState.score = score;
@@ -63,6 +79,15 @@ public class collisionDetect : MonoBehaviour
             eatFishFunction();
 
             scoreText.text = "x " + score.ToString();
+
+            StartCoroutine(resetAnimation());
+        }
+        else if (EdiblePreyTag.Contains(collision.gameObject.tag))
+        {
+            Destroy(collision.gameObject);
+            objectRenderer.sprite = eat;
+
+            //preySpawner.count--;
 
             StartCoroutine(resetAnimation());
         }
@@ -88,6 +113,6 @@ public class collisionDetect : MonoBehaviour
     {
         yield return new WaitForSeconds(.5f);
 
-        PlayerRenderer.sprite = idle;
+        objectRenderer.sprite = idle;
     }
 }

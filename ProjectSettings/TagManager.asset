@@ -6,6 +6,10 @@ TagManager:
   tags:
   - Enemy
   - Prey
+  - Anchovy
+  - Normal
+  - Lantern
+  - Shark
   layers:
   - Default
   - TransparentFX
