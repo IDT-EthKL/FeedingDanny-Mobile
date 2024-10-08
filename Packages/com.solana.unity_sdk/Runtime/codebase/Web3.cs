@@ -7,6 +7,7 @@ using Solana.Unity.Rpc;
 using Solana.Unity.Rpc.Types;
 using Solana.Unity.Wallet;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 // ReSharper disable once CheckNamespace
 
@@ -268,6 +269,7 @@ namespace Solana.Unity.SDK
         /// <returns></returns>
         public async Task<Account> LoginWalletAdapter()
         {
+            Debug.Log("Connecting");
 
             if (solanaWalletAdapterOptions.solanaWalletAdapterWebGLOptions.walletAdapterUIPrefab == null)
                 solanaWalletAdapterOptions.solanaWalletAdapterWebGLOptions.walletAdapterUIPrefab = Resources.Load<GameObject>("SolanaUnitySDK/WalletAdapterUI");
@@ -276,7 +278,12 @@ namespace Solana.Unity.SDK
             var walletAdapter = new SolanaWalletAdapter(solanaWalletAdapterOptions, rpcCluster, customRpc, webSocketsRpc, false);
             var acc = await walletAdapter.Login();
             if (acc != null)
+            {
                 WalletBase = walletAdapter;
+
+                Debug.Log("Account: " + acc);
+            }
+
             return acc;
         }
 
@@ -285,6 +292,8 @@ namespace Solana.Unity.SDK
         public void LoginWithWalletAdapter()
         {
             LoginWalletAdapter().AsUniTask().Forget();
+
+            //SceneManager.LoadScene(1);
         }
 
         public void LoginWithWeb3Auth(string provider)

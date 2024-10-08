@@ -5,6 +5,12 @@ using UnityEngine.SceneManagement;
 using TMPro;
 using System.Diagnostics.Contracts;
 
+using Solana.Unity.Rpc;
+using Solana.Unity.Rpc.Types;
+using Solana.Unity.Wallet;
+using Solana.Unity.Rpc.Models;
+using Nethereum.RPC.TransactionReceipts;
+
 public class GameState : MonoBehaviour
 {
     public GameObject player;
@@ -16,9 +22,17 @@ public class GameState : MonoBehaviour
     private int time;
     public int score;
 
+
+    public Solana.Unity.SDK.Web3 web3;
+    public ContractHandler contractHandler;
+
     private void Start()
     {
+        web3 = FindFirstObjectByType<Solana.Unity.SDK.Web3>();
+
         StartCoroutine(timer());
+
+        //contractHandler.createOrLaunchGame("test");
     }
 
     IEnumerator timer()
@@ -41,11 +55,16 @@ public class GameState : MonoBehaviour
     {
         Time.timeScale = 1;
         SceneManager.LoadScene(0);
+
+        web3.Logout();
     }
 
     public void restartGame()
     {
         Time.timeScale = 1;
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
+
+    private IRpcClient rpcClient;
+    private Wallet wallet;
 }

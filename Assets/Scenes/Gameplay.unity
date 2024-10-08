@@ -582,7 +582,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &765914951
 Transform:
   m_ObjectHideFlags: 0
@@ -626,6 +626,7 @@ GameObject:
   - component: {fileID: 868915228}
   - component: {fileID: 868915229}
   - component: {fileID: 868915230}
+  - component: {fileID: 868915231}
   m_Layer: 0
   m_Name: GameController
   m_TagString: Untagged
@@ -682,7 +683,7 @@ MonoBehaviour:
   Enemy:
   - {fileID: 9137122612061735667, guid: f03490355849fb54ab91850b16bf3d7a, type: 3}
   - {fileID: 4558627261243264438, guid: 8e6ea7d4c5342b14685e9fd33295d56d, type: 3}
-  spawnTime: 1
+  spawnTime: 30
   player: {fileID: 985337399}
 --- !u!114 &868915229
 MonoBehaviour:
@@ -700,6 +701,7 @@ MonoBehaviour:
   - {fileID: 3244715925292954496, guid: 18630eaaedea13e4fb194cc38fccb6ae, type: 3}
   spawnTime: 2
   cam: {fileID: 519420031}
+  contractHandler: {fileID: 868915231}
 --- !u!114 &868915230
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -717,6 +719,21 @@ MonoBehaviour:
   scoreText: {fileID: 291899543}
   timeText: {fileID: 924176502}
   score: 0
+  web3: {fileID: 0}
+  contractHandler: {fileID: 868915231}
+--- !u!114 &868915231
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 868915225}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 648f9eefc6430204284ecde3a7a73c4b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameState: {fileID: 868915230}
 --- !u!1 &879614836
 GameObject:
   m_ObjectHideFlags: 0
@@ -1096,6 +1113,7 @@ MonoBehaviour:
   gameState: {fileID: 868915230}
   score: 0
   scoreText: {fileID: 91958715}
+  contractHandler: {fileID: 868915231}
 --- !u!1 &998385650
 GameObject:
   m_ObjectHideFlags: 0
@@ -1626,7 +1644,7 @@ ParticleSystem:
   emitterVelocityMode: 1
   looping: 1
   prewarm: 0
-  playOnAwake: 0
+  playOnAwake: 1
   useUnscaledTime: 0
   autoRandomSeed: 1
   startDelay:
